@@ -1,17 +1,44 @@
 .idea
 ###> symfony/framework-bundle ###
 /.env.local
-/.env.local.php
 /.env.*.local
 /public/bundles/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+### Symfony template
+
+# Managed by Composer
+/var/bootstrap.php.cache512M
+/bin/*
+!bin/console
+!bin/symfony_requirements
+
+
+# PHPUnit
+/phpunit.xml
+
+# PHP-CS-FIXER
+/.php_cs
+/.php_cs.cache
+
+# Docker
+docker-compose.override.yml
+docker/php/Dockerfile
+
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
 
 ###> symfony/phpunit-bridge ###
 .phpunit
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+###< phpunit/phpunit ###
 
 ###> symfony/web-server-bundle ###
 /.web-server-pid
