@@ -1,0 +1,22 @@
+sonata_admin:
+    title: 'Application'
+    show_mosaic_button: false
+    dashboard:
+        groups:
+            Security:
+                icon: '<i class="fa fa-user"></i>'
+                items:
+                    - admin.user
+                    - admin.user_group
+            Contect:
+                icon: '<i class="fa fa-database"></i>'
+                items:
+                    - admin.post
+                
+        blocks:
+            - { type: sonata.admin.block.admin_list, position: left }
+
+sonata_block:
+    blocks:
+        sonata.admin.block.admin_list: ~
+        sonata.admin.block.search_result: ~
