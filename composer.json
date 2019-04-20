@@ -9,8 +9,10 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "api-platform/api-pack": "^1.2",
-        "friendsofsymfony/oauth-server-bundle": "^1.6",
+        "friendsofsymfony/ckeditor-bundle": "^2.1",
+        "friendsofsymfony/oauth-server-bundle": "2.0.0-alpha.0",
         "friendsofsymfony/user-bundle": "^2.1",
+        "ninsuo/symfony-collection": "^2.1",
         "sensio/framework-extra-bundle": "^5.1",
         "sonata-project/doctrine-orm-admin-bundle": "^3.8",
         "sonata-project/intl-bundle": "^2.5",
@@ -70,13 +72,16 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
+            "ckeditor:install --clear=skip --no-progress-bar --no-debug -n": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "Fuz\\Symfony\\Collection\\ScriptHandler::postInstall"
         ],
         "post-update-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "Fuz\\Symfony\\Collection\\ScriptHandler::postInstall"
         ]
     },
     "conflict": {

@@ -48,3 +48,6 @@ docker/php/Dockerfile
 /.php_cs
 /.php_cs.cache
 ###< friendsofphp/php-cs-fixer ###
+
+/public/js/jquery.collection.js
+/templates/jquery.collection.html.twig

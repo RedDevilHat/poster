@@ -15,6 +15,6 @@ class MainController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->redirectToRoute('sonata_admin_dashboard');
+        return $this->redirectToRoute('profile_application_index');
     }
 }

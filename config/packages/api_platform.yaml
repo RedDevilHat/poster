@@ -3,10 +3,14 @@ api_platform:
         paths: ['%kernel.project_dir%/src/Entity']
     oauth:
         enabled: true
-        clientId: '1_1dj7xebh2dwk4k0wg0gcs04ss0gwcwsk04soss0cwgg0csggck'
-        clientSecret: '5ymi7ggm3wsoocwoo4sswgswo4ko8kccws8cs0co8s04owwsgc'
+        clientId: '%env(API_PLATFORM_OAUTH_DEV_CLIENT_ID)%'
+        clientSecret: '%env(API_PLATFORM_OAUTH_DEV_CLIENT_SECRET)%'
         type: oauth2
         flow: application
         tokenUrl: /oauth/v2/token
         authorizationUrl: /oauth/v2/auth
         scopes: {  }
+
+         
+
+

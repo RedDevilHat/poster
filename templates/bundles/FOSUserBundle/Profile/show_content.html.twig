@@ -1,0 +1,41 @@
+{% trans_default_domain 'ProfileApplication' %}
+
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h4>{{ 'Profile data'|trans }}</h4>
+
+        <table class="table">
+          <tbody>
+          <tr>
+            <th>{{ 'Username'|trans }}</th>
+            <td>{{ user.username }}</td>
+          </tr>
+          <tr>
+            <th>{{ 'Email'|trans }}</th>
+            <td>{{ user.email }}</td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h4>{{ 'Applications'|trans }}</h4>
+        <ul class="nav nav-pills nav-stacked">
+          {% for application in user.applications %}
+            <li>
+              <a href="{{ path('profile_application_show', {'id': application.id}) }}">{{ application.name }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

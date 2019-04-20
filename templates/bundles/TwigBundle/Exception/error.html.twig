@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'An Error Occurred: %status_text%".'|trans({'%status_text%': status_text}) }}{% endblock %}
+
+{% block content %}
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+      {{ 'Oops! An Error Occurred'|trans }}
+    </div>
+    <div class="panel-body">
+      <p>
+        {{ 'The server returned a "%status_code% %status_text%".'|trans({'%status_code%': status_code, '%status_text%': status_text}) }}
+      </p>
+      <p>
+        {{ 'Something is broken. Please let us know what you were doing when this error occurred. We will fix it as soon as possible. Sorry for any inconvenience caused.'|trans }}
+      </p>
+    </div>
+  </div>
+{% endblock %}

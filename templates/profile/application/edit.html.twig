@@ -1,0 +1,18 @@
+{% extends 'profile/profile_application_layout.html.twig' %}
+
+{% block _content %}
+  {% trans_default_domain 'ProfileApplication' %}
+
+  <h1 class="page-header">
+    {{ 'Edit application'|trans }}
+  </h1>
+
+  <div class="clearfix">
+    <div class="pull-right">{{ include('profile/application/_delete_form.html.twig') }}</div>
+    <a href="{{ path('profile_application_index') }}" class="btn btn-default">{{ 'Back to list'|trans }}</a>
+  </div>
+  <hr>
+
+  {{ include('profile/application/_form.html.twig', {'button_label': 'Update'}) }}
+
+{% endblock %}

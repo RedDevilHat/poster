@@ -1,0 +1,20 @@
+ROLE_ADMIN: Администратор
+ROLE_USER: Пользователь
+ROLE_SUPER_ADMIN: Супер-администратор
+ROLE_SONATA_ADMIN: 'Интерфейс администратора'
+Application: Приложение
+'Toggle navigation': 'Переключить навигацию'
+'Admin area': 'Панель администратора'
+'API doc': 'API документация'
+Guest: Гость
+'Show profile': 'Просмотр профиля'
+'Edit profile': 'Редактирование профиля'
+'Change password': 'Изменение пароля'
+Logout: Выход
+Login: Вход
+Register: Регистрация
+'Reset password': 'Сброс пароля'
+'An Error Occurred: %status_text%".': 'Произошла ошибка: %status_text%".'
+'Oops! An Error Occurred': 'Упс! Произошла ошибка'
+'The server returned a "%status_code% %status_text%".': 'Сервер вернул "%status_code% %status_text%".'
+'Something is broken. Please let us know what you were doing when this error occurred. We will fix it as soon as possible. Sorry for any inconvenience caused.': 'Что-то сломано. Пожалуйста, дайте нам знать, что вы делали, когда произошла эта ошибка. Мы исправим это как можно скорее. Извините за причиненные неудобства.'

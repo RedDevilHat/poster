@@ -6,20 +6,30 @@ namespace App\Admin;
 
 use App\Entity\User;
 use FOS\UserBundle\Doctrine\UserManager;
+use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Security\Core\Security;
 
 final class UserAdmin extends AbstractAdmin
 {
+    protected $translationDomain = 'UserAdmin';
+
     /**
      * @var UserManager
      */
     private $userManager;
+
+    /**
+     * @var Security
+     */
+    private $securityHelper;
 
     /**
      * @required
@@ -29,6 +39,30 @@ final class UserAdmin extends AbstractAdmin
     public function setUserManager(UserManagerInterface $userManager): void
     {
         $this->userManager = $userManager;
+    }
+
+    /**
+     * @required
+     *
+     * @param Security $securityHelper
+     */
+    public function setSecurityHelper(Security $securityHelper): void
+    {
+        $this->securityHelper = $securityHelper;
+    }
+
+    public function createQuery($context = 'list')
+    {
+        /** @var ProxyQueryInterface $query */
+        $query = parent::createQuery($context);
+
+        /** @var User $user */
+        if ('list' === $context && !$this->isGranted(UserInterface::ROLE_SUPER_ADMIN) && ($user = $this->securityHelper->getUser())) {
+            $query->andWhere($query->expr()->neq($query->getRootAliases()[0].'.id', ':id'));
+            $query->setParameter('id', $user->getId());
+        }
+
+        return $query;
     }
 
     /**
@@ -63,10 +97,13 @@ final class UserAdmin extends AbstractAdmin
         $listMapper
             ->add('id')
             ->add('username')
-            ->add('email')
-            ->add('enabled')
+            ->add('email', 'email')
+            ->add('enabled', null, [
+                'editable' => true,
+            ])
             ->add('lastLogin')
-            ->add('passwordRequestedAt')
+            ->add('groups')
+            ->add('roles', 'array_localized_values')
             ->add('_action', null, ['actions' => ['show' => [], 'edit' => [], 'delete' => []]])
         ;
     }
@@ -90,7 +127,10 @@ final class UserAdmin extends AbstractAdmin
                     'autocomplete' => 'new-password',
                 ],
             ])
-            ->add('groups')
+            ->add('groups', null, [
+                'required' => false,
+                'expanded' => true,
+            ])
         ;
     }
 
@@ -99,12 +139,11 @@ final class UserAdmin extends AbstractAdmin
         $showMapper
             ->add('id')
             ->add('username')
-            ->add('email')
+            ->add('email', 'email')
             ->add('enabled')
-            ->add('salt')
             ->add('lastLogin')
-            ->add('confirmationToken')
             ->add('passwordRequestedAt')
+            ->add('roles', 'array_localized_values')
             ->add('groups')
         ;
     }

@@ -7,20 +7,17 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
 final class Version20190409183556 extends AbstractMigration
 {
-    public function getDescription() : string
-    {
-        return '';
-    }
-
-    public function up(Schema $schema) : void
+    /**
+     * @param Schema $schema
+     *
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'sqlite', 'Migration can only be executed safely on \'sqlite\'.');
+        $this->abortIf('sqlite' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'sqlite\'.');
 
         $this->addSql('CREATE TABLE oauth2_access_tokens (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, client_id INTEGER NOT NULL, user_id INTEGER DEFAULT NULL, token VARCHAR(255) NOT NULL, expires_at INTEGER DEFAULT NULL, scope VARCHAR(255) DEFAULT NULL)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_D247A21B5F37A13B ON oauth2_access_tokens (token)');
@@ -48,10 +45,15 @@ final class Version20190409183556 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_628A1EBFFE54D947 ON users_user_groups (group_id)');
     }
 
-    public function down(Schema $schema) : void
+    /**
+     * @param Schema $schema
+     *
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'sqlite', 'Migration can only be executed safely on \'sqlite\'.');
+        $this->abortIf('sqlite' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'sqlite\'.');
 
         $this->addSql('DROP TABLE oauth2_access_tokens');
         $this->addSql('DROP TABLE oauth2_clients');
