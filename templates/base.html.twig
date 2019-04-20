@@ -1,26 +1,89 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-  <title>{% block title %}Welcome!{% endblock %}</title>
-  {% block icons %}
-    {{ include('common/icons.html.twig') }}
+  {% block meta_tags %}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
   {% endblock %}
+  <title>{% block title %}{{ 'Application'|trans }}{% endblock %}</title>
+  {{ include('common/icons.html.twig') }}
   {% block stylesheets %}
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <style>
-      main {
-        margin-top: 80px;
-      }
-    </style>
   {% endblock %}
 </head>
 <body>
+
 {% block body %}
-  <main class="container">
+  {% block navbar %}
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                  aria-expanded="false">
+            <span class="sr-only">{{ 'Toggle navigation'|trans }}</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{{ path('main') }}">{{ 'Application'|trans }}</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar">
+          {% if app.user %}
+            <ul class="nav navbar-nav visible-xs">
+              <li><a href="{{ path('sonata_admin_dashboard') }}">{{ 'Admin area'|trans }}</a></li>
+              <li><a href="{{ path('api_doc') }}">{{ 'API doc'|trans }}</a></li>
+            </ul>
+          {% endif %}
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                 aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-user"></span>
+                {% if app.user %}
+                  {{ app.user.username }}
+                {% else %}
+                  {{ 'Guest'|trans }}
+                {% endif %}
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                {% if app.user %}
+                  <li>
+                    <a href="{{ path('fos_user_profile_show') }}">{{ 'Show profile'|trans }}</a>
+                  </li>
+                  <li>
+                    <a href="{{ path('fos_user_profile_edit') }}">{{ 'Edit profile'|trans }}</a>
+                  </li>
+                  <li>
+                    <a href="{{ path('fos_user_change_password') }}">{{ 'Change password'|trans }}</a>
+                  </li>
+                  <li role="separator" class="divider"></li>
+                  <li>
+                    <a href="{{ path('fos_user_security_logout') }}">{{ 'Logout'|trans }}</a>
+                  </li>
+                {% else %}
+                  <li>
+                    <a href="{{ path('fos_user_security_login') }}">{{ 'Login'|trans }}</a>
+                  </li>
+                  <li>
+                    <a href="{{ path('fos_user_registration_register') }}">{{ 'Register'|trans }}</a>
+                  </li>
+                  <li role="separator" class="divider"></li>
+                  <li>
+                    <a href="{{ path('fos_user_resetting_request') }}">{{ 'Reset password'|trans }}</a>
+                  </li>
+                {% endif %}
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  {% endblock %}
+  <div class="container">
     <div class="row">
       <div class="col-sm-12">
         {% block messages %}
@@ -28,8 +91,7 @@
             {% for type, messages in app.session.flashbag.all() %}
               {% for message in messages %}
                 <div class="alert alert-{{ type }} alert-dismissible" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
                   </button>
                   {{ message|raw }}
                 </div>
@@ -44,11 +106,39 @@
         {% block content %}{% endblock %}
       </div>
     </div>
-  </main>
+  </div>
+{% endblock %}
+
+{% block navbar_bottom %}
+  <nav class="navbar navbar-default navbar-fixed-bottom hidden-xs">
+    <div class="container">
+      <div>
+        <ul class="nav navbar-nav">
+          <li><a href="{{ path('main') }}">2019</a></li>
+        </ul>
+        {% if app.user %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{ path('sonata_admin_dashboard') }}">{{ 'Admin area'|trans }}</a></li>
+            <li><a href="{{ path('api_doc') }}">{{ 'API doc'|trans }}</a></li>
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
 {% endblock %}
 {% block javascripts %}
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="{{ asset('js/jquery.collection.js') }}"></script>
+  <script type="text/javascript">
+    $('.collection').collection({
+      up: '<button class="btn btn-sm btn-default"><span class="glyphicon glyphicon-arrow-up"></span></button>',
+      down: '<button class="btn btn-sm btn-default"><span class="glyphicon glyphicon-arrow-down"></span></button>',
+      add: '<button class="btn btn-sm btn-default"><span class="glyphicon glyphicon-plus-sign"></span></button>',
+      remove: '<button class="btn btn-sm btn-default"><span class="glyphicon glyphicon-minus-sign"></span></button>',
+      duplicate: '<button class="btn btn-sm btn-default"><span class="glyphicon glyphicon-th-large"></span></button>'
+    });
+  </script>
 {% endblock %}
 </body>
 </html>

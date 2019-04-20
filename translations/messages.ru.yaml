@@ -1,9 +1,7 @@
 ROLE_ADMIN: Администратор
 ROLE_USER: Пользователь
-ROLE_SUPER_ADMIN: 'Супер-администратор'
+ROLE_SUPER_ADMIN: Супер-администратор
 ROLE_SONATA_ADMIN: 'Интерфейс администратора'
-
-
 Application: Приложение
 'Toggle navigation': 'Переключить навигацию'
 'Admin area': 'Панель администратора'

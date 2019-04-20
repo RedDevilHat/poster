@@ -15,6 +15,11 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        api_doc:
+            # /api/{index}.{_format} - {index} is default view in api_platform
+            pattern: (?:^/api$)|(?:^/api/docs)|(?:^api/contexts/)|(?:^/api/graphql$)|(?:^/api/index\.(\w+)$)
+            security: false
+
         api_graphql:
             pattern:    ^/api/graphql
             security: false
@@ -53,6 +58,7 @@ security:
         - { path: ^/oauth/v2/auth_login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
         - { path: ^/api/, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/profile, role: ROLE_USER }
 
 
 
