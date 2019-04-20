@@ -14,6 +14,8 @@ use FOS\OAuthServerBundle\Entity\Client as BaseClient;
 class Client extends BaseClient
 {
     /**
+     * @var int|null
+     *
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")

@@ -1,5 +1,6 @@
 sonata_admin:
     title: 'Application'
+    title_logo: '/icons/icon.png'
     show_mosaic_button: false
     dashboard:
         groups:
@@ -8,13 +9,22 @@ sonata_admin:
                 items:
                     - admin.user
                     - admin.user_group
-            Contect:
+            Content:
                 icon: '<i class="fa fa-database"></i>'
                 items:
                     - admin.post
                 
         blocks:
             - { type: sonata.admin.block.admin_list, position: left }
+
+sonata_doctrine_orm_admin:
+    templates:
+        types:
+            list:
+                array_localized_values: 'admin/common/list_array_localized_values.html.twig'
+            show:
+                array_localized_values: 'admin/common/show_array_localized_values.html.twig'
+
 
 sonata_block:
     blocks:

@@ -16,6 +16,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 final class UserGroupAdmin extends AbstractAdmin
 {
+    protected $translationDomain = 'UserGroupAdmin';
+
     /**
      * @var GroupManager
      */
@@ -50,14 +52,8 @@ final class UserGroupAdmin extends AbstractAdmin
         $listMapper
             ->add('id')
             ->add('name')
-            ->add('roles')
-            ->add('_action', null, [
-                'actions' => [
-                    'show' => [],
-                    'edit' => [],
-                    'delete' => [],
-                ],
-            ])
+            ->add('roles', 'array_localized_values')
+            ->add('_action', null, ['actions' => ['show' => [], 'edit' => [], 'delete' => []]])
         ;
     }
 
@@ -71,6 +67,7 @@ final class UserGroupAdmin extends AbstractAdmin
                 ],
                 'expanded' => true,
                 'multiple' => true,
+                'required' => false,
             ])
         ;
     }
@@ -80,7 +77,7 @@ final class UserGroupAdmin extends AbstractAdmin
         $showMapper
             ->add('id')
             ->add('name')
-            ->add('roles')
+            ->add('roles', 'array_localized_values')
         ;
     }
 }

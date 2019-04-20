@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -12,6 +13,10 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 final class PostAdmin extends AbstractAdmin
 {
+    protected $translationDomain = 'PostAdmin';
+
+    protected $supportsPreviewMode = true;
+
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
@@ -24,8 +29,14 @@ final class PostAdmin extends AbstractAdmin
     {
         $listMapper
             ->add('id')
-            ->add('title')
-            ->add('content')
+            ->add('title', null, [
+                'editable' => true,
+            ])
+            ->add('content', 'html', [
+                'truncate' => [
+                    'length' => 30,
+                ],
+            ])
             ->add('_action', null, ['actions' => ['show' => [], 'edit' => [], 'delete' => []]])
         ;
     }
@@ -34,7 +45,7 @@ final class PostAdmin extends AbstractAdmin
     {
         $formMapper
             ->add('title')
-            ->add('content')
+            ->add('content', CKEditorType::class)
         ;
     }
 

@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "api-platform/api-pack": "^1.2",
+        "friendsofsymfony/ckeditor-bundle": "^2.1",
         "friendsofsymfony/oauth-server-bundle": "^1.6",
         "friendsofsymfony/user-bundle": "^2.1",
         "sensio/framework-extra-bundle": "^5.1",
@@ -67,6 +68,7 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
+            "ckeditor:install --clear=skip --no-progress-bar --no-debug -n": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__)
-    ->exclude(['assets', 'bin', 'public', 'var', 'vendor'])
+    ->exclude(['assets', 'bin', 'public', 'var', 'vendor', 'docker'])
     ->notPath('config/bundles.php')
 ;
 

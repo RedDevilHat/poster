@@ -15,6 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Post
 {
     /**
+     * @var int|null
+     *
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -22,11 +24,15 @@ class Post
     private $id;
 
     /**
+     * @var string|null
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
+     * @var string|null
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     private $content;

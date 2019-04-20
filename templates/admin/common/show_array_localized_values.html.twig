@@ -1,0 +1,9 @@
+{% import 'admin/common/array_macro.html.twig' as helper %}
+
+{% extends '@SonataAdmin/CRUD/base_show_field.html.twig' %}
+
+{% block field %}
+    {%- if value is iterable -%}
+        {{ helper.render_array_values(value, 0) }}
+    {%- endif -%}
+{% endblock %}

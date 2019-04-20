@@ -1,0 +1,9 @@
+{% import 'admin/common/array_macro.html.twig' as helper %}
+
+{% extends get_admin_template('base_list_field', admin.code) %}
+
+{% block field %}
+    {%- if value is iterable -%}
+        {{ helper.render_array_values(value, 0) }}
+    {%- endif -%}
+{% endblock %}

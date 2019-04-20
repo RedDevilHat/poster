@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\GroupInterface;
 use FOS\UserBundle\Model\User as BaseUser;
 
 /**
@@ -14,13 +16,17 @@ use FOS\UserBundle\Model\User as BaseUser;
 class User extends BaseUser
 {
     /**
-     * @ORM\Column(type="integer")
+     * @var int|null
+     *
      * @ORM\Id
+     * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
+     * @var GroupInterface[]|Collection
+     *
      * @ORM\ManyToMany(targetEntity="App\Entity\UserGroup")
      * @ORM\JoinTable(name="users_user_groups",
      *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
