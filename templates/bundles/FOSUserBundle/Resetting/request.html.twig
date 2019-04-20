@@ -1,0 +1,9 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% block fos_user_content %}
+  <div class="col-sm-6 col-sm-push-3 col-md-4 col-md-push-4">
+    <div class="well">
+      {% include "@FOSUser/Resetting/request_content.html.twig" %}
+    </div>
+  </div>
+{% endblock fos_user_content %}

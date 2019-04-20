@@ -2,6 +2,9 @@ sonata_admin:
     title: 'Application'
     title_logo: '/icons/icon.png'
     show_mosaic_button: false
+    templates:
+        layout: 'admin/layout.html.twig'
+        user_block: 'admin/block/user_block.html.twig'
     dashboard:
         groups:
             Security:
@@ -13,7 +16,6 @@ sonata_admin:
                 icon: '<i class="fa fa-database"></i>'
                 items:
                     - admin.post
-                
         blocks:
             - { type: sonata.admin.block.admin_list, position: left }
 

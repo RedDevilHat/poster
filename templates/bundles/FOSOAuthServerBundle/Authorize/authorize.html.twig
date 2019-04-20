@@ -1,0 +1,17 @@
+{% extends "@FOSOAuthServer/layout.html.twig" %}
+
+{% block fos_oauth_server_content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-sm-push-3">
+                <div class="clearfix" style="padding-top: 80px">
+                    <div class="text-center">
+                        <div class="well">
+                            {% include "@FOSOAuthServer/Authorize/authorize_content.html.twig" %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock fos_oauth_server_content %}

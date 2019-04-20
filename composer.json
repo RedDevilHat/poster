@@ -7,7 +7,7 @@
         "ext-iconv": "*",
         "api-platform/api-pack": "^1.2",
         "friendsofsymfony/ckeditor-bundle": "^2.1",
-        "friendsofsymfony/oauth-server-bundle": "^1.6",
+        "friendsofsymfony/oauth-server-bundle": "2.0.0-alpha.0",
         "friendsofsymfony/user-bundle": "^2.1",
         "sensio/framework-extra-bundle": "^5.1",
         "sonata-project/doctrine-orm-admin-bundle": "^3.8",
