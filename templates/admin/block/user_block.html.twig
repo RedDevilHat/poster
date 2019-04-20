@@ -7,13 +7,13 @@
           {{ app.user.username }}
         </h4>
         <div class="list-group">
-          <a href="{{ path('fos_user_profile_show') }}" class="list-group-item">Show profile</a>
-          <a href="{{ path('fos_user_profile_edit') }}" class="list-group-item">Edit profile</a>
-          <a href="{{ path('fos_user_change_password') }}" class="list-group-item">Change password</a>
+          <a href="{{ path('fos_user_profile_show') }}" class="list-group-item">{{ 'Show profile'|trans({}, 'messages') }}</a>
+          <a href="{{ path('fos_user_profile_edit') }}" class="list-group-item">{{ 'Edit profile'|trans({}, 'messages') }}</a>
+          <a href="{{ path('fos_user_change_password') }}" class="list-group-item">{{ 'Change password'|trans({}, 'messages') }}</a>
         </div>
         <div class="text-center">
           <hr>
-          <a href="{{ path('fos_user_security_logout') }}" class="btn btn-default btn-block">Logout</a>
+          <a href="{{ path('fos_user_security_logout') }}" class="btn btn-default btn-block">{{ 'Logout'|trans({}, 'messages') }}</a>
         </div>
         <div class="clearfix">
           <br>
@@ -21,5 +21,4 @@
       </div>
     </div>
   </div>
-
 </li>
