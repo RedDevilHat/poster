@@ -24,18 +24,14 @@ class Post
     private $id;
 
     /**
-     * @var string|null
-     *
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private ?string $title;
 
     /**
-     * @var string|null
-     *
      * @ORM\Column(type="text", nullable=true)
      */
-    private $content;
+    private ?string $content;
 
     public function __construct(?string $title = null)
     {

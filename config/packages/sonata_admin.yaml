@@ -18,6 +18,8 @@ sonata_admin:
                     - admin.post
         blocks:
             - { type: sonata.admin.block.admin_list, position: left }
+    options:
+        legacy_twig_text_extension: false
 
 sonata_doctrine_orm_admin:
     templates:

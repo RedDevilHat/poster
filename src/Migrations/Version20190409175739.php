@@ -10,8 +10,6 @@ use Doctrine\Migrations\AbstractMigration;
 final class Version20190409175739 extends AbstractMigration
 {
     /**
-     * @param Schema $schema
-     *
      * @throws \Doctrine\DBAL\DBALException
      */
     public function up(Schema $schema): void
@@ -33,8 +31,6 @@ final class Version20190409175739 extends AbstractMigration
     }
 
     /**
-     * @param Schema $schema
-     *
      * @throws \Doctrine\DBAL\DBALException
      */
     public function down(Schema $schema): void

@@ -39,6 +39,7 @@ class User extends BaseUser
 
     /**
      * @var Collection|Client[]
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\OAuth2\Client", mappedBy="owner")
      */
     private $applications;

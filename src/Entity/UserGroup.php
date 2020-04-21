@@ -14,6 +14,8 @@ use FOS\UserBundle\Model\Group as BaseGroup;
 class UserGroup extends BaseGroup
 {
     /**
+     * @var int|null
+     *
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
