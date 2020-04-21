@@ -1,6 +1,8 @@
 {
+    "name": "reddevilhat/poster",
+    "description": "Simple symfony app",
     "type": "project",
-    "license": "proprietary",
+    "license": "MIT",
     "require": {
         "php": "^7.4",
         "ext-ctype": "*",
