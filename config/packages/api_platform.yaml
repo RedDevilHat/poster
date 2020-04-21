@@ -14,5 +14,3 @@ api_platform:
         tokenUrl: /oauth/v2/token
         authorizationUrl: /oauth/v2/auth
         scopes: {  }
-
-
