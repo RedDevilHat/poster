@@ -36,6 +36,7 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.1",
         "friendsofphp/php-cs-fixer": "^2.14",
+        "friendsoftwig/twigcs": "^3.2",
         "liip/test-fixtures-bundle": "^1.7",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
@@ -79,6 +80,12 @@
         "post-update-cmd": [
             "@auto-scripts",
             "Fuz\\Symfony\\Collection\\ScriptHandler::postInstall"
+        ],
+        "lint-php-cs": [
+            "php vendor/bin/php-cs-fixer fix --dry-run"
+        ],
+        "lint-twig-cs": [
+            "php vendor/bin/twigcs templates"
         ]
     },
     "conflict": {

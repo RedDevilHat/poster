@@ -26,9 +26,6 @@ final class UserAdmin extends AbstractAdmin
      */
     private UserManagerInterface $userManager;
 
-    /**
-     * @var Security
-     */
     private Security $securityHelper;
 
     /**
