@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ApplicationType extends AbstractType
+final class ApplicationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

@@ -19,14 +19,12 @@ final class UserGroupAdmin extends AbstractAdmin
     protected $translationDomain = 'UserGroupAdmin';
 
     /**
-     * @var GroupManager
+     * @var GroupManager|GroupManagerInterface
      */
-    private $groupManager;
+    private GroupManagerInterface $groupManager;
 
     /**
      * @required
-     *
-     * @param GroupManagerInterface $groupManager
      */
     public function setGroupManager(GroupManagerInterface $groupManager): void
     {

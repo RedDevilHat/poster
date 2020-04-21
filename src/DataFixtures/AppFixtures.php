@@ -7,30 +7,27 @@ namespace App\DataFixtures;
 use App\Entity\Post;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use FOS\UserBundle\Doctrine\GroupManager;
 use FOS\UserBundle\Doctrine\UserManager;
 use FOS\UserBundle\Model\GroupManagerInterface;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
 
-class AppFixtures extends Fixture
+final class AppFixtures extends Fixture
 {
     /**
-     * @var UserManager
+     * @var UserManager|UserManagerInterface
      */
-    private $userManager;
+    private UserManagerInterface $userManager;
 
     /**
-     * @var GroupManager
+     * @var GroupManager|GroupManagerInterface
      */
-    private $groupManager;
+    private GroupManagerInterface $groupManager;
 
     /**
      * AppFixtures constructor.
-     *
-     * @param UserManagerInterface  $userManager
-     * @param GroupManagerInterface $groupManager
      */
     public function __construct(UserManagerInterface $userManager, GroupManagerInterface $groupManager)
     {

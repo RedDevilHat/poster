@@ -18,6 +18,8 @@ sonata_admin:
                     - admin.post
         blocks:
             - { type: sonata.admin.block.admin_list, position: left }
+    options:
+        legacy_twig_text_extension: false
 
 sonata_doctrine_orm_admin:
     templates:
@@ -26,7 +28,6 @@ sonata_doctrine_orm_admin:
                 array_localized_values: 'admin/common/list_array_localized_values.html.twig'
             show:
                 array_localized_values: 'admin/common/show_array_localized_values.html.twig'
-
 
 sonata_block:
     blocks:

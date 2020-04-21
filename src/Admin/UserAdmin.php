@@ -22,19 +22,14 @@ final class UserAdmin extends AbstractAdmin
     protected $translationDomain = 'UserAdmin';
 
     /**
-     * @var UserManager
+     * @var UserManager|UserManagerInterface
      */
-    private $userManager;
+    private UserManagerInterface $userManager;
 
-    /**
-     * @var Security
-     */
-    private $securityHelper;
+    private Security $securityHelper;
 
     /**
      * @required
-     *
-     * @param UserManagerInterface $userManager
      */
     public function setUserManager(UserManagerInterface $userManager): void
     {
@@ -43,8 +38,6 @@ final class UserAdmin extends AbstractAdmin
 
     /**
      * @required
-     *
-     * @param Security $securityHelper
      */
     public function setSecurityHelper(Security $securityHelper): void
     {

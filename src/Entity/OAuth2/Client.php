@@ -22,30 +22,22 @@ class Client extends BaseClient
     protected $id;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $name;
+    protected ?string $name;
 
     /**
-     * @var User|null
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="applications")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $owner;
+    private ?User $owner;
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
-     * @param string|null $name
-     *
      * @return Client
      */
     public function setName(?string $name): self
@@ -55,17 +47,12 @@ class Client extends BaseClient
         return $this;
     }
 
-    /**
-     * @return User|null
-     */
     public function getOwner(): ?User
     {
         return $this->owner;
     }
 
     /**
-     * @param User|null $owner
-     *
      * @return Client
      */
     public function setOwner(?User $owner): self

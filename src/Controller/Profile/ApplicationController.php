@@ -32,11 +32,6 @@ class ApplicationController extends AbstractController
 
     /**
      * @Route("/profile/application/new", name="profile_application_new", methods={"GET", "POST"})
-     *
-     * @param Request                $request
-     * @param ClientManagerInterface $clientManager
-     *
-     * @return Response
      */
     public function new(Request $request, ClientManagerInterface $clientManager): Response
     {
@@ -65,10 +60,6 @@ class ApplicationController extends AbstractController
 
     /**
      * @Route("/profile/application/{id}", name="profile_application_show", methods={"GET"})
-     *
-     * @param Client $client
-     *
-     * @return Response
      */
     public function show(Client $client): Response
     {
@@ -79,11 +70,6 @@ class ApplicationController extends AbstractController
 
     /**
      * @Route("/profile/application/{id}/edit", name="profile_application_edit", methods={"GET", "POST"})
-     *
-     * @param Request $request
-     * @param Client  $client
-     *
-     * @return Response
      */
     public function edit(Request $request, Client $client): Response
     {
@@ -106,11 +92,6 @@ class ApplicationController extends AbstractController
 
     /**
      * @Route("/profile/application/{id}", name="profile_application_delete", methods={"DELETE"})
-     *
-     * @param Request $request
-     * @param Client  $client
-     *
-     * @return Response
      */
     public function delete(Request $request, Client $client): Response
     {
