@@ -6,7 +6,7 @@ namespace App\Tests\Functional;
 
 class Oauth2Test extends WebTestCase
 {
-    public function testDashboard(): void
+    public function testOAuth(): void
     {
         $client = $this->getDefaultUser()->getApplications()->first();
 
@@ -39,8 +39,6 @@ class Oauth2Test extends WebTestCase
         $location = $this->client->getResponse()->headers->get('location');
 
         \parse_str(\parse_url($location, PHP_URL_FRAGMENT), $fragments);
-
-        self::assertResponseIsSuccessful();
 
         $this->assertArrayHasKey('access_token', $fragments);
     }

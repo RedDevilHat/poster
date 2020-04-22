@@ -10,7 +10,6 @@
         "api-platform/api-pack": "^1.2",
         "friendsofsymfony/ckeditor-bundle": "^2.1",
         "friendsofsymfony/oauth-server-bundle": "2.0.0-alpha.0",
-        "friendsofsymfony/user-bundle": "^2.1",
         "ninsuo/symfony-collection": "^2.1",
         "sensio/framework-extra-bundle": "^5.5",
         "sonata-project/doctrine-orm-admin-bundle": "^3.8",

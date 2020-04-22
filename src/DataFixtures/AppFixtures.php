@@ -6,28 +6,18 @@ namespace App\DataFixtures;
 
 use App\Entity\OAuth2\Client;
 use App\Entity\Post;
-use App\Entity\User;
+use App\Manager\UserGroupManager;
+use App\Manager\UserManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use FOS\OAuthServerBundle\Entity\ClientManager;
 use FOS\OAuthServerBundle\Model\ClientManagerInterface;
-use FOS\UserBundle\Doctrine\GroupManager;
-use FOS\UserBundle\Doctrine\UserManager;
-use FOS\UserBundle\Model\GroupManagerInterface;
-use FOS\UserBundle\Model\UserInterface;
-use FOS\UserBundle\Model\UserManagerInterface;
 
 final class AppFixtures extends Fixture
 {
-    /**
-     * @var UserManager|UserManagerInterface
-     */
-    private UserManagerInterface $userManager;
+    private UserManager $userManager;
 
-    /**
-     * @var GroupManager|GroupManagerInterface
-     */
-    private GroupManagerInterface $groupManager;
+    private UserGroupManager $groupManager;
 
     /**
      * @var ClientManager|ClientManagerInterface
@@ -35,8 +25,8 @@ final class AppFixtures extends Fixture
     private ClientManagerInterface $clientManager;
 
     public function __construct(
-        UserManagerInterface $userManager,
-        GroupManagerInterface $groupManager,
+        UserManager $userManager,
+        UserGroupManager $groupManager,
         ClientManagerInterface $clientManager
     ) {
         $this->userManager = $userManager;
@@ -50,14 +40,13 @@ final class AppFixtures extends Fixture
         $defaultGroup->addRole('ROLE_ADMIN');
         $this->groupManager->updateGroup($defaultGroup, false);
 
-        /** @var User $user */
         $user = $this->userManager->createUser();
         $user
             ->setUsername('root@example.com')
             ->setEmail('root@example.com')
             ->setPlainPassword('root@example.com')
             ->setEnabled(true)
-            ->addRole(UserInterface::ROLE_SUPER_ADMIN)
+            ->addRole('ROLE_SUPER_ADMIN')
             ->addGroup($defaultGroup)
         ;
         $this->userManager->updateUser($user, false);
@@ -82,7 +71,6 @@ final class AppFixtures extends Fixture
 
         $manager->persist($client);
 
-        /** @var User $user */
         $user = $this->userManager->createUser();
         $user
             ->setUsername('user@example.com')

@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\Admin;
 
 use App\Entity\UserGroup;
-use FOS\UserBundle\Doctrine\GroupManager;
-use FOS\UserBundle\Model\GroupManagerInterface;
+use App\Manager\UserGroupManager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -18,15 +17,12 @@ final class UserGroupAdmin extends AbstractAdmin
 {
     protected $translationDomain = 'UserGroupAdmin';
 
-    /**
-     * @var GroupManager|GroupManagerInterface
-     */
-    private GroupManagerInterface $groupManager;
+    private UserGroupManager $groupManager;
 
     /**
      * @required
      */
-    public function setGroupManager(GroupManagerInterface $groupManager): void
+    public function setGroupManager(UserGroupManager $groupManager): void
     {
         $this->groupManager = $groupManager;
     }

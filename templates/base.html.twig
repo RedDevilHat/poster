@@ -52,28 +52,11 @@
               <ul class="dropdown-menu">
                 {% if app.user %}
                   <li>
-                    <a href="{{ path('fos_user_profile_show') }}">{{ 'Show profile'|trans }}</a>
-                  </li>
-                  <li>
-                    <a href="{{ path('fos_user_profile_edit') }}">{{ 'Edit profile'|trans }}</a>
-                  </li>
-                  <li>
-                    <a href="{{ path('fos_user_change_password') }}">{{ 'Change password'|trans }}</a>
-                  </li>
-                  <li role="separator" class="divider"></li>
-                  <li>
-                    <a href="{{ path('fos_user_security_logout') }}">{{ 'Logout'|trans }}</a>
+                    <a href="{{ path('app_logout') }}">{{ 'Logout'|trans }}</a>
                   </li>
                 {% else %}
                   <li>
-                    <a href="{{ path('fos_user_security_login') }}">{{ 'Login'|trans }}</a>
-                  </li>
-                  <li>
-                    <a href="{{ path('fos_user_registration_register') }}">{{ 'Register'|trans }}</a>
-                  </li>
-                  <li role="separator" class="divider"></li>
-                  <li>
-                    <a href="{{ path('fos_user_resetting_request') }}">{{ 'Reset password'|trans }}</a>
+                    <a href="{{ path('app_login') }}">{{ 'Login'|trans }}</a>
                   </li>
                 {% endif %}
               </ul>

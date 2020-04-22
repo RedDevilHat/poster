@@ -152,9 +152,6 @@
     "friendsofsymfony/oauth2-php": {
         "version": "1.3.0"
     },
-    "friendsofsymfony/user-bundle": {
-        "version": "v2.1.2"
-    },
     "friendsoftwig/twigcs": {
         "version": "v3.2.2"
     },
