@@ -10,6 +10,7 @@ use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class WebTestCase extends BaseWebTestCase
@@ -26,20 +27,32 @@ class WebTestCase extends BaseWebTestCase
         ]);
     }
 
+    protected function generateUrl($name, $parameters = [], $referenceType = RouterInterface::ABSOLUTE_PATH): string
+    {
+        /** @var RouterInterface $router */
+        $router = self::$container->get('router');
+
+        return $router->generate($name, $parameters, $referenceType);
+    }
+
     protected function logIn(): void
     {
         $session = self::$container->get('session');
 
-        $user = self::$container->get('doctrine.orm.default_entity_manager')
-            ->getRepository(User::class)
-            ->findOneBy(['username' => 'root@example.com'])
-        ;
-
+        $user = $this->getDefaultUser();
         $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
         $session->set('_security_main', \serialize($token));
         $session->save();
 
         $cookie = new Cookie($session->getName(), $session->getId());
         $this->client->getCookieJar()->set($cookie);
+    }
+
+    protected function getDefaultUser(): User
+    {
+        return self::$container->get('doctrine.orm.default_entity_manager')
+            ->getRepository(User::class)
+            ->findOneBy(['username' => 'root@example.com'])
+        ;
     }
 }

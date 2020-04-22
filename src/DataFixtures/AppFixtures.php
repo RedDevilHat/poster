@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use App\Entity\OAuth2\Client;
 use App\Entity\Post;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use FOS\OAuthServerBundle\Entity\ClientManager;
+use FOS\OAuthServerBundle\Model\ClientManagerInterface;
 use FOS\UserBundle\Doctrine\GroupManager;
 use FOS\UserBundle\Doctrine\UserManager;
 use FOS\UserBundle\Model\GroupManagerInterface;
@@ -27,12 +30,18 @@ final class AppFixtures extends Fixture
     private GroupManagerInterface $groupManager;
 
     /**
-     * AppFixtures constructor.
+     * @var ClientManager|ClientManagerInterface
      */
-    public function __construct(UserManagerInterface $userManager, GroupManagerInterface $groupManager)
-    {
+    private ClientManagerInterface $clientManager;
+
+    public function __construct(
+        UserManagerInterface $userManager,
+        GroupManagerInterface $groupManager,
+        ClientManagerInterface $clientManager
+    ) {
         $this->userManager = $userManager;
         $this->groupManager = $groupManager;
+        $this->clientManager = $clientManager;
     }
 
     public function load(ObjectManager $manager): void
@@ -51,7 +60,27 @@ final class AppFixtures extends Fixture
             ->addRole(UserInterface::ROLE_SUPER_ADMIN)
             ->addGroup($defaultGroup)
         ;
-        $this->userManager->updateUser($user);
+        $this->userManager->updateUser($user, false);
+        /** @var Client $client */
+        $client = $this->clientManager->createClient();
+
+        $client->setAllowedGrantTypes([
+            'authorization_code',
+            'token',
+            'password',
+            'client_credentials',
+            'refresh_token',
+            'extensions',
+        ]);
+
+        $client->setRedirectUris([
+            'http://localhost',
+            'https://www.getpostman.com/oauth2/callback',
+        ]);
+
+        $client->setOwner($user);
+
+        $manager->persist($client);
 
         /** @var User $user */
         $user = $this->userManager->createUser();
@@ -61,7 +90,7 @@ final class AppFixtures extends Fixture
             ->setPlainPassword('user@example.com')
             ->setEnabled(true)
         ;
-        $this->userManager->updateUser($user);
+        $this->userManager->updateUser($user, false);
 
         for ($i = 1; $i < 11; ++$i) {
             $post = new Post(\sprintf('Post №%s', $i));
