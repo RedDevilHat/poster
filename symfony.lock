@@ -16,9 +16,6 @@
             "src/Entity/.gitignore"
         ]
     },
-    "cocur/slugify": {
-        "version": "v4.0.0"
-    },
     "composer/semver": {
         "version": "1.5.1"
     },
@@ -116,6 +113,19 @@
     "doctrine/reflection": {
         "version": "1.2.1"
     },
+    "easycorp/easyadmin-bundle": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.0",
+            "ref": "0a51040a43c6f2172a3a0135cd15daf2043905d7"
+        },
+        "files": [
+            "config/packages/easy_admin.yaml",
+            "config/routes/easy_admin.yaml"
+        ]
+    },
     "egulias/email-validator": {
         "version": "2.1.17"
     },
@@ -158,12 +168,6 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
-    "knplabs/knp-menu": {
-        "version": "2.6.0"
-    },
-    "knplabs/knp-menu-bundle": {
-        "version": "v2.3.0"
-    },
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
@@ -202,6 +206,9 @@
     },
     "ocramius/proxy-manager": {
         "version": "2.8.0"
+    },
+    "pagerfanta/pagerfanta": {
+        "version": "v2.1.3"
     },
     "php": {
         "version": "7.4"
@@ -244,53 +251,6 @@
         "files": [
             "config/packages/sensio_framework_extra.yaml"
         ]
-    },
-    "sonata-project/admin-bundle": {
-        "version": "3.64",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "3.64",
-            "ref": "e300c83e77d35a352b863a82c8d039f29f10fd62"
-        },
-        "files": [
-            "config/packages/sonata_admin.yaml",
-            "config/routes/sonata_admin.yaml",
-            "src/Admin/.gitignore"
-        ]
-    },
-    "sonata-project/block-bundle": {
-        "version": "3.18.4"
-    },
-    "sonata-project/cache": {
-        "version": "2.0.1"
-    },
-    "sonata-project/core-bundle": {
-        "version": "3.9",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "3.9",
-            "ref": "2f69bd1995730b73a5211a9707622fb25a925df7"
-        },
-        "files": [
-            "config/packages/sonata_core.yaml"
-        ]
-    },
-    "sonata-project/datagrid-bundle": {
-        "version": "2.5.0"
-    },
-    "sonata-project/doctrine-extensions": {
-        "version": "1.6.0"
-    },
-    "sonata-project/doctrine-orm-admin-bundle": {
-        "version": "3.17.1"
-    },
-    "sonata-project/exporter": {
-        "version": "2.2.0"
-    },
-    "sonata-project/intl-bundle": {
-        "version": "2.7.0"
     },
     "symfony/asset": {
         "version": "v4.4.7"
@@ -480,16 +440,10 @@
             "tests/bootstrap.php"
         ]
     },
-    "symfony/polyfill-intl-grapheme": {
-        "version": "v1.15.0"
-    },
     "symfony/polyfill-intl-icu": {
         "version": "v1.15.0"
     },
     "symfony/polyfill-intl-idn": {
-        "version": "v1.15.0"
-    },
-    "symfony/polyfill-intl-normalizer": {
         "version": "v1.15.0"
     },
     "symfony/polyfill-mbstring": {
@@ -527,9 +481,6 @@
             "config/routes.yaml"
         ]
     },
-    "symfony/security-acl": {
-        "version": "v3.0.4"
-    },
     "symfony/security-bundle": {
         "version": "4.4",
         "recipe": {
@@ -565,9 +516,6 @@
     },
     "symfony/stopwatch": {
         "version": "v4.4.7"
-    },
-    "symfony/string": {
-        "version": "v5.0.7"
     },
     "symfony/templating": {
         "version": "v4.4.7"
@@ -646,24 +594,6 @@
     },
     "symfony/yaml": {
         "version": "v4.4.7"
-    },
-    "twig/extensions": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "a86723ee8d8b2f9437c8ce60a5546a1c267da5ed"
-        },
-        "files": [
-            "config/packages/twig_extensions.yaml"
-        ]
-    },
-    "twig/extra-bundle": {
-        "version": "v3.0.3"
-    },
-    "twig/string-extra": {
-        "version": "v3.0.3"
     },
     "twig/twig": {
         "version": "v2.12.5"

@@ -26,24 +26,3 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-
-    admin.user:
-        class: App\Admin\UserAdmin
-        arguments: [~, App\Entity\User, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: User }
-        public: true
-
-    admin.user_group:
-        class: App\Admin\UserGroupAdmin
-        arguments: [~, App\Entity\UserGroup, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: UserGroup }
-        public: true
-
-    admin.post:
-        class: App\Admin\PostAdmin
-        arguments: [~, App\Entity\Post, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: Post }
-        public: true

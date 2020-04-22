@@ -1,0 +1,7 @@
+easy_admin:
+    entities:
+        - App\Entity\Post
+
+# TODO: To be implemented
+#        - App\Entity\User
+#        - App\Entity\UserGroup
