@@ -1,0 +1,11 @@
+version: "3.5"
+services:
+  app:
+    build:
+      ./docker/php
+
+  nginx:
+    image: nginx
+    depends_on:
+      - app
+      

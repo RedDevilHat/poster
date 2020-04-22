@@ -1,4 +1,5 @@
 .idea
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -8,26 +9,6 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
-### Symfony template
-
-# Managed by Composer
-/var/bootstrap.php.cache512M
-/bin/*
-!bin/console
-!bin/symfony_requirements
-
-
-# PHPUnit
-/phpunit.xml
-
-# PHP-CS-FIXER
-/.php_cs
-/.php_cs.cache
-
-# Docker
-docker-compose.override.yml
-docker/php/Dockerfile
-
 
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
@@ -39,9 +20,6 @@ docker/php/Dockerfile
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
-###> phpunit/phpunit ###
-/phpunit.xml
-###< phpunit/phpunit ###
 ###> friendsofphp/php-cs-fixer ###
 /.php_cs
 /.php_cs.cache
@@ -49,3 +27,6 @@ docker/php/Dockerfile
 
 /public/js/jquery.collection.js
 /templates/jquery.collection.html.twig
+
+# Docker
+docker-compose.override.yaml

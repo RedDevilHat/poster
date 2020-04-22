@@ -24,13 +24,13 @@ class Client extends BaseClient
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $name;
+    protected $name;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="applications")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private ?User $owner;
+    private $owner;
 
     public function getName(): ?string
     {
