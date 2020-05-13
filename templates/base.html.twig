@@ -33,7 +33,6 @@
         <div class="collapse navbar-collapse" id="navbar">
           {% if app.user %}
             <ul class="nav navbar-nav">
-              <li><a href="{{ path('easyadmin') }}">{{ 'Admin area'|trans }}</a></li>
               <li><a href="{{ path('api_doc') }}">{{ 'API doc'|trans }}</a></li>
             </ul>
           {% endif %}
@@ -101,7 +100,6 @@
         </ul>
         {% if app.user %}
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="{{ path('easyadmin') }}">{{ 'Admin area'|trans }}</a></li>
             <li><a href="{{ path('api_doc') }}">{{ 'API doc'|trans }}</a></li>
           </ul>
         {% endif %}
@@ -125,3 +123,6 @@
 {% endblock %}
 </body>
 </html>
+
+
+

@@ -4,55 +4,46 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\OAuth2\Client;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Ramsey\Uuid\Nonstandard\Uuid;
+use Ramsey\Uuid\UuidInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity
  * @ORM\Table(name="users")
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields={"username"})
  */
 class User implements UserInterface
 {
+    public const ROLE_DEFAULT = 'ROLE_USER';
+
     /**
-     * @var int|null
-     *
      * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      */
-    private $id;
+    private UuidInterface $id;
 
     /**
-     * @var string
+     * @ORM\Column(type="string", length=180, unique=true)
+     */
+    private string $username;
+
+    /**
+     * @var array<string>
      *
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="json")
      */
-    private $username;
+    private array $roles = [];
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string")
-     */
-    private $password;
-
-    /**
-     * @var string|null
-     */
-    private $plainPassword;
-
-    /**
-     * @var array
-     *
-     * @ORM\Column(type="json", nullable=true)
-     */
-    private $roles;
-
-    /**
-     * @var UserGroup[]|Collection
+     * @var Collection|UserGroup[]
      *
      * @ORM\ManyToMany(targetEntity="App\Entity\UserGroup")
      * @ORM\JoinTable(name="users_user_groups",
@@ -63,225 +54,140 @@ class User implements UserInterface
     private $groups;
 
     /**
-     * @var Collection|Client[]
+     * The hashed password.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\OAuth2\Client", mappedBy="owner")
+     * @ORM\Column(type="string")
      */
-    private $applications;
+    private string $password;
 
-    public function __construct()
+    private ?string $plainPassword = null;
+
+    public function __construct(string $username)
     {
-        $this->roles = [];
-        $this->applications = new ArrayCollection();
+        $this->username = $username;
+        $this->password = '';
+        $this->id = Uuid::uuid4();
+        $this->groups = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->getUsername();
-    }
-
-    /**
-     * @return Client[]|Collection
-     */
-    public function getApplications()
-    {
-        return $this->applications;
-    }
-
-    public function addRole($role)
-    {
-        $role = \strtoupper($role);
-        if ('ROLE_USER' === $role) {
-            return $this;
-        }
-
-        if (!\in_array($role, $this->roles, true)) {
-            $this->roles[] = $role;
-        }
-
-        return $this;
-    }
-
-    public function eraseCredentials(): void
-    {
-        $this->plainPassword = null;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->username;
     }
 
-    public function getPassword()
+    public function getRoles(): array
     {
-        return $this->password;
-    }
-
-    public function getPlainPassword()
-    {
-        return $this->plainPassword;
-    }
-
-    public function getRoles()
-    {
-        $roles = $this->roles;
+        $roles = [$this->roles];
 
         foreach ($this->getGroups() as $group) {
-            $roles = \array_merge($roles, $group->getRoles());
+            $roles[] = $group->getRoles();
         }
 
-        // we need to make sure to have at least one role
-        $roles[] = 'ROLE_USER';
+        $roles[] = [static::ROLE_DEFAULT];
 
-        return \array_unique($roles);
+        return \array_values(\array_unique(\array_merge(...$roles)));
     }
 
-    public function hasRole($role)
-    {
-        return \in_array(\strtoupper($role), $this->getRoles(), true);
-    }
-
-    public function isSuperAdmin()
-    {
-        return $this->hasRole('ROLE_SUPER_ADMIN');
-    }
-
-    public function removeRole($role)
-    {
-        if (false !== $key = \array_search(\strtoupper($role), $this->roles, true)) {
-            unset($this->roles[$key]);
-            $this->roles = \array_values($this->roles);
-        }
-
-        return $this;
-    }
-
-    public function setUsername($username)
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    public function setUsernameCanonical($usernameCanonical)
-    {
-        $this->usernameCanonical = $usernameCanonical;
-
-        return $this;
-    }
-
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
-
-        return $this;
-    }
-
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function setEmailCanonical($emailCanonical)
-    {
-        $this->emailCanonical = $emailCanonical;
-
-        return $this;
-    }
-
-    public function setEnabled($boolean)
-    {
-        $this->enabled = (bool) $boolean;
-
-        return $this;
-    }
-
-    public function setPassword($password)
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    public function setSuperAdmin($boolean)
-    {
-        if (true === $boolean) {
-            $this->addRole('ROLE_SUPER_ADMIN');
-        } else {
-            $this->removeRole('ROLE_SUPER_ADMIN');
-        }
-
-        return $this;
-    }
-
-    public function setPlainPassword($password)
-    {
-        $this->plainPassword = $password;
-
-        return $this;
-    }
-
-    public function setRoles(array $roles)
+    /**
+     * @param array<string> $roles
+     */
+    public function setRoles(array $roles): void
     {
         $this->roles = [];
 
         foreach ($roles as $role) {
             $this->addRole($role);
         }
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return \in_array(\strtoupper($role), $this->getRoles(), true);
+    }
+
+    public function addRole(string $role): void
+    {
+        $role = \strtoupper($role);
+        if ($role === static::ROLE_DEFAULT) {
+            return;
+        }
+
+        if (!\in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
+    }
+
+    public function removeRole(string $role): void
+    {
+        if (false !== $key = \array_search(\strtoupper($role), $this->roles, true)) {
+            unset($this->roles[$key]);
+            $this->roles = \array_values($this->roles);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @internal
+     */
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
 
         return $this;
     }
 
-    public function getGroups()
+    public function getPlainPassword(): ?string
     {
-        return $this->groups ?: $this->groups = new ArrayCollection();
+        return $this->plainPassword;
     }
 
-    public function getGroupNames()
+    public function setPlainPassword(?string $plainPassword): void
     {
-        $names = [];
-        foreach ($this->getGroups() as $group) {
-            $names[] = $group->getName();
-        }
-
-        return $names;
+        $this->plainPassword = $plainPassword;
     }
 
-    public function hasGroup($name)
-    {
-        return \in_array($name, $this->getGroupNames(), true);
-    }
-
-    public function addGroup(UserGroup $group)
-    {
-        if (!$this->getGroups()->contains($group)) {
-            $this->getGroups()->add($group);
-        }
-
-        return $this;
-    }
-
-    public function removeGroup(UserGroup $group)
-    {
-        if ($this->getGroups()->contains($group)) {
-            $this->getGroups()->removeElement($group);
-        }
-
-        return $this;
-    }
-
-    public function getSalt()
+    /**
+     * {@inheritdoc}
+     */
+    public function getSalt(): ?string
     {
         return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function eraseCredentials(): void
+    {
+        $this->plainPassword = null;
+    }
+
+    public function addGroup(UserGroup $group): void
+    {
+        if (!$this->groups->contains($group)) {
+            $this->groups[] = $group;
+        }
+    }
+
+    public function removeGroup(UserGroup $group): void
+    {
+        if ($this->groups->contains($group)) {
+            $this->groups->removeElement($group);
+        }
+    }
+
+    /**
+     * @return Collection|UserGroup[]
+     */
+    public function getGroups(): Collection
+    {
+        return $this->groups;
     }
 }

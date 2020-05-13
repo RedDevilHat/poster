@@ -17,21 +17,20 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        api_doc:
-            # /api/{index}.{_format} - {index} is default view in api_platform
-            pattern: (?:^/api$)|(?:^/api/docs)|(?:^api/contexts/)|(?:^/api/graphql$)|(?:^/api/index\.(\w+)$)
-            security: false
-
-        api_graphql:
-            pattern:    ^/api/graphql
-            security: false
-
         api:
             pattern:    ^/api/
-            fos_oauth:  true
-            stateless:  true
-            anonymous:  false
+            stateless: true
+            anonymous: true
             provider: app_user_provider
+            json_login:
+                check_path: /api/authentication_token
+                username_path: username
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
 
         main:
             pattern: ^/
@@ -49,26 +48,13 @@ security:
                 authenticators:
                     - App\Security\AppAuthenticator
 
-        oauth_authorize:
-            pattern:    ^/oauth/v2/auth
-            form_login:
-                provider: app_user_provider
-                check_path: /oauth/v2/auth_login_check
-                login_path: /oauth/v2/auth_login
-
-        oauth_token:
-            pattern:    ^/oauth/v2/token
-            security:   false
-
-
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/oauth/v2/auth_login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/, role: ROLE_ADMIN }
-        - { path: ^/api/, role: IS_AUTHENTICATED_FULLY }
-        - { path: ^/profile, role: ROLE_USER }
+        - { path: ^/api/docs, roles: IS_AUTHENTICATED_ANONYMOUSLY } # Allows accessing the Swagger UI
+        - { path: ^/api/authentication_token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/, role: ROLE_USER }
+              
 
 
 

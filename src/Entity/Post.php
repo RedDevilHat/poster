@@ -6,6 +6,9 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ApiResource
@@ -15,26 +18,26 @@ use Doctrine\ORM\Mapping as ORM;
 class Post
 {
     /**
-     * @var int|null
-     *
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      */
-    private $id;
+    private UuidInterface $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $title;
+    private string $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private ?string $content;
+    private ?string $content = null;
 
-    public function __construct(?string $title = null)
+    public function __construct(string $title)
     {
+        $this->id = Uuid::uuid4();
         $this->title = $title;
     }
 
@@ -43,7 +46,7 @@ class Post
         return (string) $this->getTitle();
     }
 
-    public function getId(): ?int
+    public function getId(): UuidInterface
     {
         return $this->id;
     }
@@ -53,11 +56,9 @@ class Post
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(string $title): void
     {
         $this->title = $title;
-
-        return $this;
     }
 
     public function getContent(): ?string
@@ -65,10 +66,8 @@ class Post
         return $this->content;
     }
 
-    public function setContent(?string $content): self
+    public function setContent(?string $content): void
     {
         $this->content = $content;
-
-        return $this;
     }
 }

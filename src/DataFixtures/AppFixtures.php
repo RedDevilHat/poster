@@ -4,81 +4,37 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Entity\OAuth2\Client;
 use App\Entity\Post;
-use App\Manager\UserGroupManager;
-use App\Manager\UserManager;
+use App\Entity\User;
+use App\Entity\UserGroup;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use FOS\OAuthServerBundle\Entity\ClientManager;
-use FOS\OAuthServerBundle\Model\ClientManagerInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 final class AppFixtures extends Fixture
 {
-    private UserManager $userManager;
+    private UserPasswordEncoderInterface $passwordEncoder;
 
-    private UserGroupManager $groupManager;
-
-    /**
-     * @var ClientManager|ClientManagerInterface
-     */
-    private ClientManagerInterface $clientManager;
-
-    public function __construct(
-        UserManager $userManager,
-        UserGroupManager $groupManager,
-        ClientManagerInterface $clientManager
-    ) {
-        $this->userManager = $userManager;
-        $this->groupManager = $groupManager;
-        $this->clientManager = $clientManager;
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     public function load(ObjectManager $manager): void
     {
-        $defaultGroup = $this->groupManager->createGroup('Default');
+        $defaultGroup = new UserGroup('Default');
         $defaultGroup->addRole('ROLE_ADMIN');
-        $this->groupManager->updateGroup($defaultGroup, false);
+        $manager->persist($defaultGroup);
 
-        $user = $this->userManager->createUser();
-        $user
-            ->setUsername('root@example.com')
-            ->setEmail('root@example.com')
-            ->setPlainPassword('root@example.com')
-            ->setEnabled(true)
-            ->addRole('ROLE_SUPER_ADMIN')
-            ->addGroup($defaultGroup)
-        ;
-        $this->userManager->updateUser($user, false);
-        /** @var Client $client */
-        $client = $this->clientManager->createClient();
+        $user = new User('root@example.com');
+        $user->setPassword($this->passwordEncoder->encodePassword($user, 'root@example.com'));
+        $user->addRole('ROLE_SUPER_ADMIN');
+        $user->addGroup($defaultGroup);
+        $manager->persist($user);
 
-        $client->setAllowedGrantTypes([
-            'authorization_code',
-            'token',
-            'password',
-            'client_credentials',
-            'refresh_token',
-            'extensions',
-        ]);
-
-        $client->setRedirectUris([
-            'http://localhost',
-            'https://www.getpostman.com/oauth2/callback',
-        ]);
-
-        $client->setOwner($user);
-
-        $manager->persist($client);
-
-        $user = $this->userManager->createUser();
-        $user
-            ->setUsername('user@example.com')
-            ->setEmail('user@example.com')
-            ->setPlainPassword('user@example.com')
-            ->setEnabled(true)
-        ;
-        $this->userManager->updateUser($user, false);
+        $user = new User('user@example.com');
+        $user->setPassword($this->passwordEncoder->encodePassword($user, 'user@example.com'));
+        $manager->persist($user);
 
         for ($i = 1; $i < 11; ++$i) {
             $post = new Post(\sprintf('Post №%s', $i));

@@ -5,12 +5,7 @@ api_platform:
         json: ['application/merge-patch+json']
     swagger:
         versions: [3]
-    oauth:
-        enabled: true
-        clientId: '%env(API_PLATFORM_OAUTH_DEV_CLIENT_ID)%'
-        clientSecret: '%env(API_PLATFORM_OAUTH_DEV_CLIENT_SECRET)%'
-        type: oauth2
-        flow: application
-        tokenUrl: /oauth/v2/token
-        authorizationUrl: /oauth/v2/auth
-        scopes: {  }
+        api_keys:
+            apiKey:
+                name: Authorization
+                type: header

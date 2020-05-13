@@ -5,101 +5,101 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Ramsey\Uuid\Nonstandard\Uuid;
+use Ramsey\Uuid\UuidInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity
  * @ORM\Table(name="user_groups")
+ * @ORM\Entity(repositoryClass="App\Repository\UserGroupRepository")
+ * @UniqueEntity(fields={"name"})
  */
 class UserGroup
 {
     /**
-     * @var int|null
-     *
      * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      */
-    protected $id;
+    private UuidInterface $id;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=false, unique=true)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
-    protected $name;
+    private string $name;
 
     /**
-     * @var array
+     * @var array<string>
+     *
      * @ORM\Column(type="json")
      */
-    protected $roles;
+    private array $roles;
 
     /**
-     * Group constructor.
-     *
-     * @param string $name
-     * @param array  $roles
+     * @param array<string> $roles
      */
-    public function __construct($name, $roles = [])
+    public function __construct(string $name, array $roles = [])
     {
+        $this->id = Uuid::uuid4();
         $this->name = $name;
-        $this->roles = $roles;
-    }
+        $this->roles = [];
 
-    public function __toString()
-    {
-        return (string) $this->getName();
-    }
-
-    public function addRole($role)
-    {
-        if (!$this->hasRole($role)) {
-            $this->roles[] = \strtoupper($role);
+        foreach ($roles as $role) {
+            $this->addRole($role);
         }
-
-        return $this;
     }
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function hasRole($role)
+    public function setName(string $name): void
     {
-        return \in_array(\strtoupper($role), $this->roles, true);
+        $this->name = $name;
     }
 
-    public function getRoles()
+    /**
+     * @return array<string>
+     */
+    public function getRoles(): array
     {
-        return $this->roles;
+        return \array_values(\array_unique($this->roles));
     }
 
-    public function removeRole($role)
+    /**
+     * @param array<string> $roles
+     */
+    public function setRoles(array $roles): void
+    {
+        $this->roles = [];
+
+        foreach ($roles as $role) {
+            $this->addRole($role);
+        }
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return \in_array(\strtoupper($role), $this->getRoles(), true);
+    }
+
+    public function addRole(string $role): void
+    {
+        $role = \strtoupper($role);
+
+        if (!\in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
+    }
+
+    public function removeRole(string $role): void
     {
         if (false !== $key = \array_search(\strtoupper($role), $this->roles, true)) {
             unset($this->roles[$key]);
             $this->roles = \array_values($this->roles);
         }
-
-        return $this;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function setRoles(array $roles)
-    {
-        $this->roles = $roles;
-
-        return $this;
     }
 }
